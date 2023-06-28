@@ -11,24 +11,18 @@ using namespace std;
 
 int main()
 {
-
-
-
-    const char* serviceName = "org.sdbuscpp.concatenator";
+    const char* serviceName = "org.gspine.gesture";
     auto connection = sdbus::createSystemBusConnection(serviceName);
 
-    const char* objectPath = "/org/sdbuscpp/concatenator";
+    const char* objectPath = "/org/gspine/gesture";
     auto sdbusObject = sdbus::createObject(*connection, objectPath);
 
-    const char* interfaceName = "org.sdbuscpp.Concatenator";
+    const char* interfaceName = "org.gspine.Gesture";
     sdbusObject->registerSignal(interfaceName, "touchEvent", "s");
     sdbusObject->finishRegistration();
 
     TouchHandler th {"/dev/input/event3", sdbusObject.get(), interfaceName};
-    std::thread t{&TouchHandler::run, th};
-
-    //th.run();
-
+    std::thread t {&TouchHandler::run, th};
 
     connection->enterEventLoop();
 
