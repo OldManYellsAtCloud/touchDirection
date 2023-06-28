@@ -13,9 +13,6 @@ add_executable(gesture src/main.cpp
 
 target_include_directories(gesture PRIVATE include)
 
-# touchhandler.h
-# logger.h
-# utils.h
 target_link_libraries(gesture PRIVATE SDBusCpp::sdbus-c++)
 
 install(TARGETS gesture RUNTIME DESTINATION /usr/bin)
