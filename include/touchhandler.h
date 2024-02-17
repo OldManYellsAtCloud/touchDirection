@@ -5,6 +5,11 @@
 #include <linux/input.h>
 #include <sdbus-c++/sdbus-c++.h>
 
+#define DIRECTION_LEFT_TO_RIGHT  "LEFT_TO_RIGHT"
+#define DIRECTION_RIGHT_TO_LEFT  "RIGHT_TO_LEFT"
+#define DIRECTION_TOP_TO_BOTTOM  "TOP_TO_BOTTOM"
+#define DIRECTION_BOTTOM_TO_TOP  "BOTTOM_TO_TOP"
+
 enum class Direction {
     LEFT_TO_RIGHT,
     RIGHT_TO_LEFT,

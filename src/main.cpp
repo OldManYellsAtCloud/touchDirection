@@ -4,7 +4,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-#include "logger.h"
+#include <loglibrary.h>
 
 #include <sdbus-c++/sdbus-c++.h>
 
@@ -62,7 +62,7 @@ std::string findTouchScreenEvent(){
     std::ifstream inputDevices{INPUT_DEVICES, ios_base::in};
     std::string evendId;
     if (!inputDevices.is_open()){
-        LOG(LOG_ERR, "Could not open input devices!");
+        ERROR("Could not open input devices!");
         exit(1);
     }
 
@@ -85,7 +85,7 @@ int main()
 
     std::string touchScreenEvent = findTouchScreenEvent();
     if (touchScreenEvent == "") {
-        LOG(LOG_ERR, "Could not find touchscreen device!");
+        ERROR("Could not find touchscreen device!");
         exit(1);
     }
 
@@ -96,7 +96,10 @@ int main()
     auto sdbusObject = sdbus::createObject(*connection, objectPath);
 
     const char* interfaceName = "org.gspine.Gesture";
-    sdbusObject->registerSignal(interfaceName, "touchEvent", "s");
+    sdbusObject->registerSignal(interfaceName, DIRECTION_LEFT_TO_RIGHT, "");
+    sdbusObject->registerSignal(interfaceName, DIRECTION_RIGHT_TO_LEFT, "");
+    sdbusObject->registerSignal(interfaceName, DIRECTION_TOP_TO_BOTTOM, "");
+    sdbusObject->registerSignal(interfaceName, DIRECTION_BOTTOM_TO_TOP, "");
     sdbusObject->finishRegistration();
 
     TouchHandler th {std::format(INPUT_EVENT_PATH, touchScreenEvent), sdbusObject.get(), interfaceName};
