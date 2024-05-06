@@ -42,27 +42,27 @@ TouchHandler::TouchHandler(const std::string& filepath, sdbus::IObject* sdbus, c
 }
 
 void TouchHandler::calculateDirection(){
-    DEBUG("Calculating direction x1: {}, x2: {}, y1: {}, y2: {}", std::to_string(first_x),
+    DBG("Calculating direction x1: {}, x2: {}, y1: {}, y2: {}", std::to_string(first_x),
            std::to_string(last_x), std::to_string(first_y), std::to_string(last_y));
 
     if (std::abs(first_x - last_x) < 50) { // vertical movement
         if ( last_y - first_y < 0 ) {
             if (first_y > (BOTTOM_Y - MAX_DEVIATION)) {
-                DEBUG("BOTTOM_TO_TOP movement");
+                DBG("BOTTOM_TO_TOP movement");
                 sendSignal(Direction::BOTTOM_TO_TOP);
             }
         } else if (first_y < (TOP_Y + MAX_DEVIATION)) {
-            DEBUG("TOP_TO_BOTTOM movement");
+            DBG("TOP_TO_BOTTOM movement");
             sendSignal(Direction::TOP_TO_BOTTOM);
         }
     } else { //horizontal movement
         if (last_x - first_x > 0) {
             if (first_x < MAX_DEVIATION) {
-                DEBUG("LEFT_TO_RIGHT movement");
+                DBG("LEFT_TO_RIGHT movement");
                 sendSignal(Direction::LEFT_TO_RIGHT);
             }
         } else if (first_x > (RIGHT_X - MAX_DEVIATION)) {
-            DEBUG("RIGHT_TO_LEFT movement");
+            DBG("RIGHT_TO_LEFT movement");
             sendSignal(Direction::RIGHT_TO_LEFT);
         }
     }
