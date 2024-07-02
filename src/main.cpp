@@ -89,18 +89,17 @@ int main()
         exit(1);
     }
 
-    const char* serviceName = "org.gspine.gesture";
-    auto connection = sdbus::createSystemBusConnection(serviceName);
+    sdbus::ServiceName serviceName{"org.gspine.gesture"};
+    auto connection = sdbus::createBusConnection(serviceName);
 
-    const char* objectPath = "/org/gspine/gesture";
-    auto sdbusObject = sdbus::createObject(*connection, objectPath);
+    sdbus::ObjectPath objectPath{"/org/gspine/gesture"};
+    auto sdbusObject = sdbus::createObject(*connection, std::move(objectPath));
 
-    const char* interfaceName = "org.gspine.Gesture";
-    sdbusObject->registerSignal(interfaceName, DIRECTION_LEFT_TO_RIGHT, "");
-    sdbusObject->registerSignal(interfaceName, DIRECTION_RIGHT_TO_LEFT, "");
-    sdbusObject->registerSignal(interfaceName, DIRECTION_TOP_TO_BOTTOM, "");
-    sdbusObject->registerSignal(interfaceName, DIRECTION_BOTTOM_TO_TOP, "");
-    sdbusObject->finishRegistration();
+    sdbus::InterfaceName interfaceName{"org.gspine.Gesture"};
+    sdbusObject->addVTable(sdbus::SignalVTableItem{sdbus::MethodName{DIRECTION_LEFT_TO_RIGHT}, {}, {}}).forInterface(interfaceName);
+    sdbusObject->addVTable(sdbus::SignalVTableItem{sdbus::MethodName{DIRECTION_RIGHT_TO_LEFT}, {}, {}}).forInterface(interfaceName);
+    sdbusObject->addVTable(sdbus::SignalVTableItem{sdbus::MethodName{DIRECTION_TOP_TO_BOTTOM}, {}, {}}).forInterface(interfaceName);
+    sdbusObject->addVTable(sdbus::SignalVTableItem{sdbus::MethodName{DIRECTION_BOTTOM_TO_TOP}, {}, {}}).forInterface(interfaceName);
 
     TouchHandler th {std::format(INPUT_EVENT_PATH, touchScreenEvent), sdbusObject.get(), interfaceName};
     std::thread t {&TouchHandler::run, th};

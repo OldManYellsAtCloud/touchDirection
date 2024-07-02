@@ -26,11 +26,11 @@ void TouchHandler::sendSignal(Direction direction){
         break;
     }
 
-    auto signal = _sdbus->createSignal(_sdbusInterface, signalType);
+    auto signal = _sdbus->createSignal(sdbus::InterfaceName{_sdbusInterface}, sdbus::SignalName{signalType});
     _sdbus->emitSignal(signal);
 }
 
-TouchHandler::TouchHandler(const std::string& filepath, sdbus::IObject* sdbus, const char* sdbusInterface)
+TouchHandler::TouchHandler(const std::string& filepath, sdbus::IObject* sdbus, sdbus::InterfaceName sdbusInterface)
 {
     _sdbus = sdbus;
     _sdbusInterface = sdbusInterface;

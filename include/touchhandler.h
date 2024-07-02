@@ -32,7 +32,7 @@ private:
     bool done = false;
 
     sdbus::IObject* _sdbus;
-    const char* _sdbusInterface;
+    sdbus::InterfaceName _sdbusInterface;
 
     unsigned int event_num_x = 0;
     unsigned int event_num_y = 0;
@@ -70,7 +70,7 @@ protected:
 
 public:
 
-    TouchHandler(const std::string& filepath, sdbus::IObject* sdbus, const char* sdbusInterface);
+    TouchHandler(const std::string& filepath, sdbus::IObject* sdbus, sdbus::InterfaceName sdbusInterface);
     ~TouchHandler(){}
 
     void run();
