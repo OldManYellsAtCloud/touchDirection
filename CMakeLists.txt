@@ -9,7 +9,8 @@ find_package(sdbus-c++)
 find_package(LogLibrary)
 
 add_executable(gesture src/main.cpp
-                       src/touchhandler.cpp)
+                       src/touchhandler.cpp
+                       include/touchhandler.h)
 
 target_include_directories(gesture PRIVATE include)
 
